@@ -1,120 +1,145 @@
-# Case de Análise de Dados — Hábitos e Desempenho Estudantil
+Perfeito — aqui está o README completo e atualizado, sem emojis e já com a seção do Streamlit integrada de forma profissional, para você copiar e colar diretamente no repositório:
 
-Este projeto teve como objetivo explorar um conjunto de dados sobre **hábitos de estudo, estilo de vida e saúde mental de estudantes**, a fim de identificar **quais fatores mais influenciam o desempenho acadêmico**.
-Todo o processo foi realizado em **Python**, utilizando as bibliotecas **pandas**, **matplotlib**, **seaborn** e **statsmodels**.
+⸻
 
----
+Case de Análise de Dados — Hábitos e Desempenho Estudantil
 
-## 1. Exploração Inicial
+Este projeto teve como objetivo explorar um conjunto de dados sobre hábitos de estudo, estilo de vida e saúde mental de estudantes, a fim de identificar quais fatores mais influenciam o desempenho acadêmico.
+Todo o processo foi realizado em Python, utilizando as bibliotecas pandas, matplotlib, seaborn e statsmodels.
 
-Comecei o projeto realizando uma análise exploratória da base de dados, observando:
+⸻
 
-* Os **tipos de variáveis** e valores ausentes (apenas 9% faltantes em `parental_education_level`);
-* A **distribuição** das principais colunas (notas, horas de estudo, sono, uso de redes sociais, saúde mental, etc.);
-* E a inexistência de **linhas duplicadas** (0 registros).
+1. Exploração Inicial
 
-Criei histogramas para visualizar as distribuições e compreender o comportamento geral das variáveis contínuas, o que me ajudou a identificar padrões e possíveis outliers.
+O projeto iniciou com uma análise exploratória da base de dados, observando:
+	•	Os tipos de variáveis e valores ausentes (apenas 9% faltantes em parental_education_level);
+	•	A distribuição das principais colunas (notas, horas de estudo, sono, uso de redes sociais, saúde mental, etc.);
+	•	A inexistência de linhas duplicadas (0 registros).
 
----
+Foram criados histogramas para visualizar as distribuições e compreender o comportamento geral das variáveis contínuas, permitindo identificar padrões e possíveis outliers.
 
-## 2. Engenharia e Tratamento de Dados
+⸻
 
-Durante a etapa de **engenharia de dados**, realizei diversas transformações com o objetivo de **corrigir inconsistências, tratar ausências e criar variáveis derivadas** que representassem melhor os comportamentos analisados.
+2. Engenharia e Tratamento de Dados
 
-| Ação                                                                                   | Descrição                                                                                                 | Justificativa                                                                                                                       |
-| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Substituição dos valores ausentes em `parental_education_level` por “Not Informed”** | Cerca de 9% dos registros estavam vazios nessa coluna.                                                    | Como essa variável é **categórica e qualitativa**, decidi criar uma categoria neutra (“Not Informed”) para não distorcer a amostra. |
-| **Criação da variável ordinal `parents_education_ord`**                                | Converti os níveis de escolaridade para valores de 1 a 6 (Primary → 1 ... PhD → 6).                       | Essa transformação permite o uso da variável em **correlações e regressões**, respeitando sua ordem hierárquica.                    |
-| **Criação da variável binária `works_flag`**                                           | Converti respostas textuais (“Yes”, “Sim”, “True”) para 0 e 1.                                            | Isso facilita a aplicação de testes estatísticos e comparações entre grupos de estudantes que trabalham ou não.                     |
-| **Criação de faixas (`buckets`) para horas de estudo e tempo em redes sociais**        | Agrupei as colunas `study_hours_per_day` e `social_media_hours` em intervalos (ex.: 0–1h, 1–2h, 2–4h...). | Essa abordagem melhora a **interpretação visual** e reduz o impacto de outliers.                                                    |
-| **Conversão de `diet_quality` em valores numéricos (`diet_quality_num`)**              | Mapeei as categorias: Poor → 1, Fair → 2, Good → 3.                                                       | Assim pude realizar cálculos quantitativos mantendo a **ordem implícita de qualidade** da dieta.                                    |
-| **Criação do `lifestyle_index`**                                                       | Desenvolvi um índice composto (0–100) com pesos 0.4 para sono, 0.3 para dieta e 0.3 para exercício.       | Esse índice resume a **qualidade de vida** dos estudantes, combinando múltiplos fatores.                                            |
-| **Normalização Min–Max (0–100)**                                                       | Escalei as variáveis base para a mesma faixa de valores.                                                  | Isso evita que variáveis com amplitudes maiores dominem o índice e facilita comparações.                                            |
-| **Preenchimento de ausentes numéricos com a mediana**                                  | Apliquei essa técnica em variáveis contínuas.                                                             | A mediana é menos sensível a outliers e preserva a distribuição central dos dados.                                                  |
-| **Checagem final com `df.info()` e `df.head()`**                                       | Revisei a integridade e os tipos das colunas após as transformações.                                      | Isso garantiu que todas as variáveis estivessem prontas para a análise estatística.                                                 |
+Durante a etapa de engenharia de dados, foram realizadas diversas transformações para corrigir inconsistências, tratar ausências e criar variáveis derivadas que representassem melhor os comportamentos analisados.
 
-Esses tratamentos garantiram que o dataset ficasse **completo, consistente e estatisticamente interpretável**, refletindo de forma fiel os comportamentos que eu desejava investigar.
+Ação	Descrição	Justificativa
+Substituição dos valores ausentes em parental_education_level por “Not Informed”	Cerca de 9% dos registros estavam vazios nessa coluna.	Como a variável é categórica, foi criada uma categoria neutra (“Not Informed”) para não distorcer a amostra.
+Criação da variável ordinal parents_education_ord	Conversão dos níveis de escolaridade para valores de 1 a 6 (Primary → 1 … PhD → 6).	Permite o uso em correlações e regressões, respeitando sua hierarquia.
+Criação da variável binária works_flag	Conversão de respostas textuais (“Yes”, “Sim”, “True”) para 0 e 1.	Facilita testes estatísticos e comparações entre grupos.
+Criação de faixas (buckets) para horas de estudo e tempo em redes sociais	Agrupamento de study_hours_per_day e social_media_hours em intervalos (ex.: 0–1h, 1–2h, 2–4h…).	Melhora a interpretação visual e reduz o impacto de outliers.
+Conversão de diet_quality em valores numéricos	Mapeamento: Poor → 1, Fair → 2, Good → 3.	Permite cálculos quantitativos mantendo a ordem implícita.
+Criação do lifestyle_index	Índice composto (0–100) com pesos 0.4 (sono), 0.3 (dieta) e 0.3 (exercício).	Resume a qualidade de vida em um único indicador.
+Normalização Min–Max (0–100)	Escala das variáveis base para a mesma faixa.	Evita distorções entre variáveis de magnitudes diferentes.
+Preenchimento de ausentes numéricos com a mediana	Aplicado em variáveis contínuas.	A mediana é menos sensível a outliers.
+Checagem final (df.info() e df.head())	Verificação de integridade e tipos.	Garante que o dataset está pronto para modelagem.
 
----
+Esses tratamentos garantiram que o dataset ficasse completo, consistente e estatisticamente interpretável.
 
-## 3. Técnicas Estatísticas Utilizadas
+⸻
 
-Empreguei diferentes técnicas para analisar os dados:
+3. Técnicas Estatísticas Utilizadas
 
-* **Regressão Linear Simples (OLS):** para medir relações entre variáveis contínuas;
-* **Regressão Linear Múltipla com Interação:** para avaliar efeitos combinados;
-* **Correlação de Pearson:** para medir força e direção de relações lineares;
-* **Teste t de Médias Independentes:** para comparar grupos distintos;
-* **Pivot Table + Heatmap:** para analisar interações categóricas;
-* **Boxplots e Violin Plots:** para comparar distribuições e medianas.
+Foram empregadas diferentes técnicas para análise:
+	•	Regressão Linear Simples (OLS): para medir relações entre variáveis contínuas.
+	•	Regressão Linear Múltipla com Interação: para avaliar efeitos combinados.
+	•	Correlação de Pearson: para medir força e direção de relações lineares.
+	•	Teste t de Médias Independentes: para comparar grupos distintos.
+	•	Pivot Table + Heatmap: para analisar interações categóricas.
+	•	Boxplots e Violin Plots: para comparar distribuições e medianas.
 
-Cada análise foi acompanhada de visualizações para facilitar a interpretação e validar visualmente os resultados.
+Cada análise foi acompanhada de visualizações que facilitaram a interpretação e validação dos resultados.
 
----
+⸻
 
-## 4. Visualização de Dados
+4. Visualização de Dados
 
-| Hipótese                                                               | Tipo de Gráfico           | Justificativa                                                                         |
-| ---------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------- |
-| **H1 — Quem mais estuda tira as melhores notas**                       | Scatterplot com regressão | Permite observar a relação linear positiva entre estudo e nota.                       |
-| **H2 — Quem tem boa saúde mental tira boas notas**                     | Boxplot                   | Mostra a variação das notas conforme o nível de saúde mental.                         |
-| **H3 — Quem passa muito tempo nas redes sociais tira notas piores**    | Scatterplot + Boxplot     | Demonstra a relação negativa entre tempo em redes e desempenho.                       |
-| **H4 — Quanto mais estudar e melhor a saúde mental, maiores as notas** | Heatmap                   | Representa o efeito combinado de duas variáveis categorizadas.                        |
-| **H5 — Quem tem um bom lifestyle tira notas melhores**                 | Scatterplot + Boxplot     | Compara as medianas e variações entre grupos de lifestyle.                            |
-| **H6 — Pessoas que trabalham tendem a ter notas mais baixas**          | Violin Plot               | Compara distribuições e densidades entre grupos.                                      |
-| **H7 — Pais com maior escolaridade → notas maiores**                   | Boxplot                   | Facilita a comparação de desempenho entre diferentes níveis de escolaridade dos pais. |
-| **H8 — Um bom lifestyle influencia em uma melhor saúde mental**        | Scatterplot               | Mostra a tendência entre lifestyle e saúde mental.                                    |
+Hipótese	Tipo de Gráfico	Justificativa
+H1 — Quem mais estuda tira as melhores notas	Scatterplot com regressão	Mostra relação linear positiva entre estudo e nota.
+H2 — Boa saúde mental → boas notas	Boxplot	Mostra variação das notas por nível de saúde mental.
+H3 — Mais redes sociais → notas piores	Scatterplot + Boxplot	Mostra relação negativa entre tempo em redes e desempenho.
+H4 — Estudo + saúde mental → notas mais altas	Heatmap	Representa o efeito combinado das variáveis.
+H5 — Bom lifestyle → notas melhores	Scatterplot + Boxplot	Compara medianas e variações entre grupos de lifestyle.
+H6 — Trabalhar → notas mais baixas	Violin Plot	Compara densidades de distribuição entre grupos.
+H7 — Escolaridade dos pais → notas maiores	Boxplot	Compara desempenho conforme o nível de escolaridade dos pais.
+H8 — Lifestyle → saúde mental	Scatterplot	Mostra a tendência entre hábitos e bem-estar.
 
----
 
-## 5. Resultados e Interpretação das Hipóteses
+⸻
 
-| Hipótese                                             | Resultado Estatístico                | Interpretação                                                                                     |
-| ---------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| **H1 — Quem mais estuda tira as melhores notas**     | R² = 0.681, Coef. = 9.49, p < 0.001  | Relação forte e positiva — cada hora adicional de estudo aumenta significativamente a nota média. |
-| **H2 — Boa saúde mental → boas notas**               | R² = 0.103, Coef. = 1.90, p < 0.001  | Relação positiva moderada — estudantes com melhor bem-estar tendem a ter desempenho mais alto.    |
-| **H3 — Mais redes sociais → notas piores**           | R² = 0.028, Coef. = -2.40, p < 0.001 | Relação negativa significativa — uso excessivo de redes sociais está ligado a notas menores.      |
-| **H4 — Estudo + saúde mental → notas mais altas**    | R² = 0.788, p < 0.001                | Efeito combinado positivo entre as variáveis.                                                     |
-| **H5 — Bom lifestyle → notas melhores**              | R² = 0.026, p < 0.001                | Relação fraca, mas ainda positiva.                                                                |
-| **H6 — Trabalhar → notas mais baixas**               | p = 0.39                             | Diferença não significativa.                                                                      |
-| **H7 — Pais com maior escolaridade → notas maiores** | R² = 0.000, p = 0.803                | Nenhuma relação significativa.                                                                    |
-| **H8 — Bom lifestyle → melhor saúde mental**         | R² = 0.000, p = 0.634                | Relação estatisticamente nula.                                                                    |
+5. Resultados e Interpretação
 
----
+Hipótese	Resultado Estatístico	Interpretação
+H1	R² = 0.681, Coef. = 9.49, p < 0.001	Relação forte e positiva: cada hora adicional de estudo aumenta a nota média.
+H2	R² = 0.103, Coef. = 1.90, p < 0.001	Relação positiva moderada: bem-estar influencia desempenho.
+H3	R² = 0.028, Coef. = -2.40, p < 0.001	Relação negativa: uso excessivo de redes está ligado a notas menores.
+H4	R² = 0.788, p < 0.001	Efeito combinado positivo entre estudo e saúde mental.
+H5	R² = 0.026, p < 0.001	Relação leve e positiva.
+H6	p = 0.39	Diferença não significativa.
+H7	R² = 0.000, p = 0.803	Nenhuma relação significativa.
+H8	R² = 0.000, p = 0.634	Sem relação estatística significativa.
 
-## 6. Conclusões Gerais
 
-1. **O tempo de estudo é o principal fator associado ao desempenho.**
-   É o único com impacto realmente expressivo e estatisticamente robusto.
+⸻
 
-2. **Saúde mental e redes sociais também influenciam as notas.**
-   Estudantes com boa saúde mental tendem a ter notas mais altas, enquanto o uso excessivo de redes está ligado a piores resultados.
+6. Conclusões Gerais
+	1.	O tempo de estudo é o principal fator relacionado ao desempenho acadêmico.
+	2.	Saúde mental e uso de redes sociais têm impacto moderado.
+	3.	Trabalho e escolaridade dos pais influenciam pouco.
+	4.	Um estilo de vida saudável contribui levemente, mas sem significância estatística.
 
-3. **Aspectos externos**, como o trabalho e a escolaridade dos pais, **têm impacto mínimo**, sugerindo que o desempenho depende mais dos próprios hábitos.
+⸻
 
-4. **O lifestyle saudável** contribui levemente, mas o efeito não é significativo.
+7. Dicionário de Termos e Métricas
 
----
+Termo	Significado	Interpretação
+R² (R-squared)	Grau de explicação do modelo	Mede quanto da variação na nota é explicada pela variável.
+Coeficiente (β)	Força e direção da relação	Positivo → direta; negativo → inversa.
+p-valor	Probabilidade de o resultado ocorrer por acaso	p < 0.05 → relação significativa.
+OLS	Regressão Linear Tradicional	Minimiza o erro entre valores previstos e reais.
+Boxplot	Gráfico de caixa	Mostra mediana, quartis e outliers.
+Heatmap	Mapa de calor	Representa médias ou correlações em matriz.
+Violin Plot	Gráfico de violino	Exibe densidade e simetria das distribuições.
+Pivot Table	Tabela dinâmica	Resume dados categóricos em matriz.
 
-## 7. Dicionário de Termos e Métricas
 
-| Termo                            | Significado                                    | Interpretação                                                         |
-| -------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------- |
-| **R² (R-squared)**               | Grau de explicação do modelo                   | Mede quanto da variação na nota é explicada pela variável analisada.  |
-| **Coeficiente (β)**              | Força e direção da relação                     | Valor positivo → relação direta; negativo → relação inversa.          |
-| **p-valor**                      | Probabilidade de o resultado ocorrer por acaso | Se **p < 0.05**, a relação é estatisticamente significativa.          |
-| **OLS (Ordinary Least Squares)** | Método de regressão linear tradicional         | Ajusta uma linha que minimiza o erro entre valores previstos e reais. |
-| **Boxplot**                      | Gráfico de caixa                               | Mostra mediana, quartis e outliers.                                   |
-| **Heatmap**                      | Mapa de calor                                  | Representa médias ou correlações em matriz.                           |
-| **Violin Plot**                  | Gráfico de violino                             | Exibe a densidade e simetria das distribuições.                       |
-| **Pivot Table**                  | Tabela dinâmica                                | Resume dados categóricos de forma matricial.                          |
+⸻
 
----
+8. Dashboard Interativa — Streamlit
 
-## 8. Referências e Execução do Projeto
+Além da análise estatística tradicional, foi desenvolvida uma interface interativa com Streamlit, que permite tratamento, exploração e modelagem de dados de forma visual e intuitiva.
 
-* O **notebook completo da análise** está disponível neste repositório, com o nome:
-  [`analise_habitos.ipynb`](./analise_habitos.ipynb)
+Funcionalidades Principais
 
-* É possível **visualizar os resultados de forma interativa** na dashboard hospedada no Streamlit:
-  [Acessar Dashboard](https://teste-pratico---analytics-engineer-funppavd9ozydtjbeuwic6.streamlit.app/)
+1. Tratamento de Dados Automatizado
+	•	Detecção automática de valores nulos, outliers e variáveis categóricas.
+	•	Interface para o usuário escolher o tratamento: preencher, remover, normalizar, codificar ou ignorar.
+	•	Opção de aplicar tratamentos gerais em todas as colunas de um tipo (numéricas, categóricas, etc.).
+
+2. Análise Exploratória
+	•	Geração automática de histogramas, boxplots e mapa de calor com correlações (com valores anotados).
+	•	Possibilidade de escolher qual variável será o eixo Y e qual modelo de gráfico usar.
+	•	Exibição das principais estatísticas descritivas da base.
+
+3. Modelagem e Predição
+	•	Escolha da coluna alvo (target) e das variáveis preditoras.
+	•	Seleção do modelo de Machine Learning (Regressão Linear, Random Forest, etc.).
+	•	Exibição automática das métricas de desempenho (R², RMSE, MAE) e importância das variáveis.
+
+4. Visualização Avançada
+	•	Possibilidade de criar múltiplos gráficos simultaneamente.
+	•	Dropdown interativo para selecionar hipóteses específicas e visualizar seus gráficos correspondentes.
+	•	Dashboard organizada por seções (Exploração, Modelagem e Resultados).
+
+5. Exportação
+	•	Geração automática dos resultados (métricas, gráficos e textos) em JSON dentro de notebook_artifacts/.
+	•	Opção de baixar relatórios em PDF diretamente pela interface.
+
+⸻
+
+9. Referências e Execução do Projeto
+	•	Notebook completo:   [`analise_habitos.ipynb`](./analise_habitos.ipynb)
+	•	Dashboard: app.py (executar com streamlit run app.py)
+	•	Deploy: [Streamlit Cloud](https://teste-pratico---analytics-engineer-funppavd9ozydtjbeuwic6.streamlit.app/)
+	•	Artefatos gerados: notebook_artifacts/summary.json, metrics.json, hypotheses.json e gráficos .png
