@@ -109,3 +109,12 @@ Cada análise foi acompanhada de visualizações para facilitar a interpretaçã
 | **Violin Plot**                  | Gráfico de violino                             | Exibe a densidade e simetria das distribuições.                       |
 | **Pivot Table**                  | Tabela dinâmica                                | Resume dados categóricos de forma matricial.                          |
 
+---
+
+## 8. Referências e Execução do Projeto
+
+* O **notebook completo da análise** está disponível neste repositório, com o nome:
+  [`analise_habitos.ipynb`](./analise_habitos.ipynb)
+
+* É possível **visualizar os resultados de forma interativa** na dashboard hospedada no Streamlit:
+  [Acessar Dashboard](https://teste-pratico---analytics-engineer-funppavd9ozydtjbeuwic6.streamlit.app/)
